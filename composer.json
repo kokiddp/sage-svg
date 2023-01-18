@@ -19,6 +19,6 @@
     ]
   },
   "require": {
-    "nothingworks/blade-svg": "^1.3"
+    "blade-ui-kit/blade-icons": "^1.5"
   }
 }
