@@ -23,6 +23,6 @@
     ]
   },
   "require": {
-    "blade-ui-kit/blade-icons": "~0.3.4"
+    "blade-ui-kit/blade-icons": "^1.5"
   }
 }

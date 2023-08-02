@@ -3,19 +3,21 @@
 namespace SageSvg;
 
 use function App\sage;
-use BladeSvg\SvgFactory;
+use BladeUI\Icons\Factory;
+use BladeUI\Icons\IconsManifest;
+use Illuminate\Filesystem\Filesystem;
 
 function registerBinding()
 {
   if (function_exists('\\App\\sage')) {
-    sage()->singleton(SvgFactory::class, function () {
-      $config = [
-        'inline' => true,
-        'class' => 'icon',
-        'svg_path' => get_stylesheet_directory().'/assets/icons/',
-      ];
+    sage()->singleton(Factory::class, function () {
+      $factory = new Factory(new Filesystem(), new IconsManifest(new Filesystem(), './'));
+      $factory->add('default', [
+        'path' => get_stylesheet_directory().'/assets/icons/',
+        'prefix' => ''
+      ]);
 
-      return new SvgFactory($config);
+      return $factory;
     });
   }
 }
@@ -24,7 +26,7 @@ function registerBladeTag()
 {
   if (function_exists('\\App\\sage')) {
     sage('blade')->compiler()->directive('svg', function ($expression) {
-        return "<?php echo e(\\App\\sage(\\BladeSvg\\SvgFactory::class)->svg($expression)) ?>";
+      return "<?php echo e(\\App\\sage(\\BladeUI\\Icons\\Factory::class)->svg($expression)) ?>";
     });
   }
 }
